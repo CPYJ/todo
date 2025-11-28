@@ -39,7 +39,7 @@
 ```json
 {
   "username": "testuser",
-  "password": "1234"
+  "password": "test1234"
 }
 ````
 
@@ -58,7 +58,7 @@
 ```json
 {
   "username": "testuser",
-  "password": "1234"
+  "password": "test1234"
 }
 ```
 
