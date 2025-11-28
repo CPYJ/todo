@@ -120,7 +120,7 @@ eyJhbGciOiJIUzI1NiJ9...
 | **인증 (JWT)** | [AuthController.java](src/main/java/com/example/todo/controller/AuthController.java) | 회원가입 / 로그인 / 토큰 발급 |
 | **보안 설정** | [SecurityConfig.java](src/main/java/com/example/todo/security/SecurityConfig.java) | Spring Security 설정 |
 | **Todo 비즈니스 로직** | [TodoService.java](src/main/java/com/example/todo/service/TodoService.java) | CRUD, `@Cacheable`, `@CacheEvict`, Kafka 이벤트 처리 |
-| **Kafka 이벤트 발행** | [KafkaProducer.java](src/main/java/com/example/todo/event/KafkaProducer.java) | Todo 생성 시 Kafka 이벤트 발행 |
+| **Kafka 이벤트 발행** | [TodoProducer.java](src/main/java/com/example/todo/event/TodoProducer.java) | Todo 생성 시 Kafka 이벤트 발행 |
 | **AOP 로깅** | [LoggingAspect.java](src/main/java/com/example/todo/aop/LoggingAspect.java) | 요청·응답 로깅 |
-| **전역 예외 처리** | [GlobalExceptionHandler.java](src/main/java/com/example/todo/exception/GlobalExceptionHandler.java) | 예외 처리 및 응답 관리 |
+| **전역 예외 처리** | [CustomExceptionHandler.java](src/main/java/com/example/todo/exception/CustomExceptionHandler.java) | 예외 처리 및 응답 관리 |
 
