@@ -1,0 +1,52 @@
+package com.example.todo.controller;
+
+import com.example.todo.dto.TodoDto;
+import com.example.todo.service.TodoService;
+import jakarta.validation.Valid; // Bean Validation 작동 시킴
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/todos")
+@RequiredArgsConstructor
+@Validated // 검증 기능 사용하기
+public class TodoController {
+
+    private final TodoService todoService;
+
+    @GetMapping
+    public ResponseEntity<List<TodoDto>> getAllTodos() {
+        return ResponseEntity.ok(todoService.getAllTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TodoDto> getTodoById(@PathVariable Long id) {
+        // 응답 데이터와 상태 코드를 한 번에 담아보낼 수 있음
+        return ResponseEntity.ok(todoService.getTodoById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<TodoDto> createTodo(@Valid @RequestBody TodoDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(todoService.createTodo(dto));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<TodoDto> updateTodo(@PathVariable Long id,
+                                              // 실제 검증
+                                              @Valid @RequestBody TodoDto dto) {
+        return ResponseEntity.ok(todoService.updateTodo(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
+        todoService.deleteTodo(id);
+        // 상태 코드 204 요청 성공 응답 바디 없음
+        return ResponseEntity.noContent().build();
+    }
+}

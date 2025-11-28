@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 5s # 5초마다 한번씩 데이터(메트릭) 가져옴
+
+scrape_configs:                             # 어디서 데이터를 가져올지
+  - job_name: 'todoServer'                  #작업 이름
+    metrics_path: '/actuator/prometheus'    # 데이터 가져올 경로
+    static_configs: 
+      #실제 서버 주소. 도커 컨테이너 밖에 있는 spb 서버 찾는 법
+      # service name 활용 : 내부포트
+      - targets: ['todo:8080']

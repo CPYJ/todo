@@ -1,0 +1,72 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.8'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'todo list project'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// 기본 스타터 => 자주 쓰는 라이브러리들 세트
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// 롬복
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// 개발 편의. 코드 수정 시 자동 재시작
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// h2 메모리 db / postgres
+	runtimeOnly 'com.h2database:h2'
+	implementation 'org.postgresql:postgresql'
+
+
+	// 테스트
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// jwt 토큰 인증용
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // jwt 생성/파싱
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5' // jwt 구현체
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // java 객체 <-> json
+
+	// redis / 캐시
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+	// kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+
+
+	// 모니터링 도구 actuator: 모니터링 데이터 표시, micrometer: 데이터 전송 -> prometheus
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
