@@ -54,8 +54,73 @@
 
 ### 🔸 로그인 (JWT 토큰 발급)
 
-**POST** `ec2-54-180-166싱, Kafka 이벤트 처리 |
+**POST** `ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/api/auth/login`
+
+```json
+{
+  "username": "testuser",
+  "password": "test1234"
+}
+```
+
+**응답 예시**
+
+```text
+eyJhbGciOiJIUzI1NiJ9...
+```
+
+> 이후 요청 시 헤더에 추가
+> `Authorization: Bearer <token>`
+
+---
+
+### 🔸 Todo 등록
+
+**POST** `ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/api/todos`
+
+> 헤더
+> `Authorization: Bearer <token>`
+
+```json
+{
+  "title": "Redis 캐싱 적용",
+  "description": "성능 개선",
+  "completed": false
+}
+```
+
+---
+
+### 🔸 Todo 전체 조회
+
+**GET** `ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/api/todos`
+
+> 헤더
+> `Authorization: Bearer <token>`
+
+**응답 예시**
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Redis 캐싱 적용",
+    "description": "성능 개선",
+    "completed": false
+  }
+]
+```
+
+---
+
+## 📂 주요 코드 바로가기
+
+
+| 영역 | 파일 / 경로 | 설명 |
+|------|--------------|------|
+| **인증 (JWT)** | [AuthController.java](src/main/java/com/example/todo/controller/AuthController.java) | 회원가입 / 로그인 / 토큰 발급 |
+| **보안 설정** | [SecurityConfig.java](src/main/java/com/example/todo/security/SecurityConfig.java) | Spring Security 설정 |
+| **Todo 비즈니스 로직** | [TodoService.java](src/main/java/com/example/todo/service/TodoService.java) | CRUD, 캐싱, Kafka 이벤트 처리 |
 | **Kafka 이벤트 발행** | [TodoProducer.java](src/main/java/com/example/todo/event/TodoProducer.java) | Todo 생성 시 Kafka 이벤트 발행 |
 | **AOP 로깅** | [LoggingAspect.java](src/main/java/com/example/todo/aop/LoggingAspect.java) | 요청·응답 로깅 |
 | **전역 예외 처리** | [CustomExceptionHandler.java](src/main/java/com/example/todo/exception/CustomExceptionHandler.java) | 예외 처리 및 응답 관리 |
-
