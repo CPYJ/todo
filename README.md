@@ -1,7 +1,7 @@
 # 📝 Todo List 
  
-> CRUD, **JWT 인증**, **Redis 캐싱**, **Kafka 이벤트**,  
-> **Docker + AWS ECR 배포**까지 직접 구현한 백엔드 프로젝트입니다.
+> CRUD, **JWT 인증**, **Redis 캐싱**, **Kafka 이벤트**, **Docker + AWS 배포**까지  
+> 직접 구현한 Todo List 백엔드 프로젝트입니다.
 
 ---
 
