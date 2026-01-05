@@ -187,7 +187,7 @@ public class TodoControllerTest {
                 .completed(true)
                 .build();
 
-        mockMvc.perform(post("/api/todos/" + id)
+        mockMvc.perform(put("/api/todos/" + id)
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDto)))
@@ -220,6 +220,7 @@ public class TodoControllerTest {
                     .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
     }
+
 
 
     @Test

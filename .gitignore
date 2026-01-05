@@ -43,3 +43,6 @@ out/
 dockerfile
 .dockerignore
 docker-compose.yml
+
+#로그 파일
+*.log
