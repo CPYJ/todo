@@ -36,7 +36,7 @@ public class TodoController {
                 .body(todoService.createTodo(dto));
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TodoDto> updateTodo(@PathVariable Long id,
                                               // 실제 검증
                                               @Valid @RequestBody TodoDto dto) {
