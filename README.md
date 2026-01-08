@@ -23,11 +23,10 @@
 ## 💡 핵심 포인트
 
 - **JWT + Spring Security**를 통한 안전한 사용자 인증
-- **Redis 블랙리스트**로 로그아웃 시 토큰 무효화 및 재사용 차단  
 - **Redis 캐싱**으로 조회 성능 향상 및 DB 부하 최소화  
 - **Kafka 이벤트 발행** 기반의 확장 가능한 비동기 구조 설계  
 - **AOP 로깅**으로 요청·응답·에러를 자동 추적하고 디버깅 효율 향상  
-- **전역 예외 처리 (ControllerAdvice)** 로 일관성 있는 에러 응답 관리  
+- **전역 예외 처리** 로 일관성 있는 에러 응답  
 - **Actuator + Prometheus + Grafana** 로 서버 상태·요청 지표 실시간 모니터링  
 - **Docker + Docker Compose + AWS(ECR·EC2·RDS)** 로 배포 환경 구축
 
