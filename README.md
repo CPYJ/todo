@@ -124,3 +124,4 @@ eyJhbGciOiJIUzI1NiJ9...
 | **Kafka 이벤트 발행** | [TodoProducer.java](src/main/java/com/example/todo/event/TodoProducer.java) | Todo 생성 시 Kafka 이벤트 발행 |
 | **AOP 로깅** | [LoggingAspect.java](src/main/java/com/example/todo/aop/LoggingAspect.java) | 요청·응답 로깅 |
 | **전역 예외 처리** | [CustomExceptionHandler.java](src/main/java/com/example/todo/exception/CustomExceptionHandler.java) | 예외 처리 및 응답 관리 |
+| **테스트 코드** | [TodoControllerTest.java](src/test/java/com/example/todo/controller/TodoControllerTest.java) | 테스트 코드 |
