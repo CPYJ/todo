@@ -1,0 +1,59 @@
+name: CICD Deploy
+# github actions 작업 이름
+
+on:
+  push:
+    branches: ["main"]
+  # main 브랜치에 push 될 떄 자동실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # github가 제공하는 임시 ubuntu 서버
+
+    steps:
+      - name: Get source code
+        uses: actions/checkout@v3
+        # github 코드를 actions 서버로 가져옴
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+        # springboot 빌드를 위해 jdk 17 설치
+        # github actions 서버에 잠깐 설치됨
+
+      - name: Build Springboot jar
+        run: ./gradlew build -x test
+        # 테스트 건너뛰고 (RDS 연결 문제 방지) 빌드
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        # Github Secrets에 저장된 환경변수로 ecr에 자동으로 로그인
+
+      - name: Build Docker image
+        run: docker build -t todo .
+      # docker image 빌드
+
+      - name : Tag Docker image
+        run: docker tag todo:latest 608145123890.dkr.ecr.ap-northeast-2.amazonaws.com/todo:latest
+      # 배포용 tag 이름 붙이기 ( ecr 주소 + 이미지 이름 : latest )
+
+      # 이미지 ecr로 push
+      - name: Push Docker image to ECR
+        run: docker push 608145123890.dkr.ecr.ap-northeast-2.amazonaws.com/todo:latest
+
+      # EC2에 SSH로 접속
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          # ec2 접속 후 deploy.sh 실행 
+          # ecr에서 image pull 후 메인 컨테이너만 재생성
+          # sh 파일은 ./ 가 필요함
+          script: |
+            cd /home/ubuntu/yml
+            ./deploy.sh

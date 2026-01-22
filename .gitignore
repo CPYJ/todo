@@ -40,8 +40,6 @@ out/
 .env
 
 #도커 파일
-dockerfile
-.dockerignore
 docker-compose.yml
 
 #로그 파일
