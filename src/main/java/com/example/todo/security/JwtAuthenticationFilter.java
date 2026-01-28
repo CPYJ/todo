@@ -33,21 +33,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         // 요청 헤더 꺼내기
         String authHeader = request.getHeader("Authorization");
-
-
         // bearer 토큰 형식인지 판단
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
            String token = authHeader.substring(7);
 
-           
            // jwt가 블랙리스트에 있는 경우 (로그아웃 해서 유효하지 않은 토큰)
            if(tokenBlacklistService.isBlacklisted(token)) {
                // 인증 실패 반환
                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                return;
            }
-
-
            // 토큰이 유효한지 검사
            if(jwtTokenProvider.validateToken(token)) {
 
@@ -57,17 +52,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                // 권한 리스트. role이 하나여도 이런 식으로 전달
                List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
 
-
                 // spring security에서 사용하는 인증 객체에 로그인 정보 저장
                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                        // spring security의 User 객체. 비밀번호, role
                        new User(username, "", authorities), // 누구인지
                        null, authorities); // 인증 수단(jwt는 null), role
 
-
                // ip주소, 브라우저 정보 등등의 부가 정보도 같이 기록
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 // 인증된 유저 등록. SecurityContextHolder는 현재 로그인된 유저 정보 저장하는 곳
                 SecurityContextHolder.getContext().setAuthentication(authentication);
            }
