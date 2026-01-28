@@ -30,6 +30,14 @@ jobs:
         run: ./gradlew build -x test
         # 테스트 건너뛰고 (RDS 연결 문제 방지) 빌드
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         # Github Secrets에 저장된 환경변수로 ecr에 자동으로 로그인
@@ -39,7 +47,7 @@ jobs:
         run: docker build -t todo .
       # docker image 빌드
 
-      - name : Tag Docker image
+      - name: Tag Docker image
         run: docker tag todo:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-2.amazonaws.com/todo:latest
       # 배포용 tag 이름 붙이기 ( ecr 주소 + 이미지 이름 : latest )
 
