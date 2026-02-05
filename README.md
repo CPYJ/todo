@@ -1,12 +1,14 @@
 # 📝 Todo List 
  
 > Todo List REST API 프로젝트입니다.  
-> **트래픽 증가 상황을 가정하고**
 > - 서버 수평 확장을 고려한 JWT 기반 인증
 > - Redis 캐시를 통한 조회 성능 개선 및 DB 부하 경감  
 > - Kafka 기반의 비동기 이벤트 처리
-> - AWS + Docker 환경에서의 배포 및 모니터링  
-> 을 목표로 설계·구현했습니다.
+> - AWS + Docker 환경에서의 배포 및 모니터링
+> - github action CI/CD
+> - Swagger
+> - 전역 예외처리  
+> 을 설계·구현했습니다.
 
 ---
 
