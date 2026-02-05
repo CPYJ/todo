@@ -29,6 +29,10 @@ public class TodoDto implements Serializable { // redis에 저장하기 위해
     // 기본값은 false
     private boolean completed;
 
+    // 클라이언트가 보내는 것 X. 서버에서 채우는 응답용 필드
+    // 따라서 validation 안해도 됨
+    private Long userId;
+
 
 
     // Entity를 받아서 Dto로 바꾼 다음 반환하는 메서드
@@ -38,6 +42,7 @@ public class TodoDto implements Serializable { // redis에 저장하기 위해
                 .title(todo.getTitle())
                 .description(todo.getDescription())
                 .completed(todo.isCompleted())
+                .userId(todo.getUser().getId())
                 .build();
     }
 }

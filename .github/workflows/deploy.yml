@@ -36,12 +36,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
+        # ECR에 접근할 때 사용할 변수들 지정
 
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
-        # Github Secrets에 저장된 환경변수로 ecr에 자동으로 로그인
-        # aws access key id 와 secret access key 환경변수로 등록
+        # 상단에 지정된 환경변수로 ecr에 자동으로 로그인
 
       - name: Build Docker image
         run: docker build -t todo .
