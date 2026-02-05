@@ -94,6 +94,15 @@ public class TodoControllerTest {
 
 
 
+
+    // 토큰 없이 요청 시 접근 거부 되는지 확인
+    @Test
+    void getAllTodos_fail_noToken() throws Exception {
+        mockMvc.perform(get("/api/todos"))
+                .andExpect(status().isForbidden());
+    }
+
+
     @Test
     void createTodo_success() throws Exception{
         TodoDto dto = TodoDto.builder()
@@ -150,13 +159,6 @@ public class TodoControllerTest {
     }
 
 
-
-    // 토큰 없이 요청 시 접근 거부 되는지 확인
-    @Test
-    void getAllTodos_fail_noToken() throws Exception {
-        mockMvc.perform(get("/api/todos"))
-                .andExpect(status().isForbidden());
-    }
 
 
 

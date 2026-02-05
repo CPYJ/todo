@@ -30,7 +30,8 @@ public class TodoService {
 
     // 메서드 결과 캐시에 저장. 같은 요청 오면 캐시에서 반환. 캐시에 없는 경우 db
     // key 이름 =  메서드이름:user이름 하여 유저별 캐시 관리
-    @Cacheable(value = "todos", key="#root.methodName + ':' + authentication.name")
+    @Cacheable(value = "todos",
+            key = "#root.methodName + ':' + T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name")
     public List<TodoDto> getAllTodos() {
         log.info("DB에서 Todos 조회 중");
 
@@ -55,7 +56,8 @@ public class TodoService {
 
 
     // 데이터가 변경됐으니 해당 유저의 캐시 데이터 삭제
-    @CacheEvict(value = "todos", key = "'getAllTodos:' + authentication.name")
+    @CacheEvict(value = "todos",
+            key = "'getAllTodos:' + T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name")
     public TodoDto createTodo(TodoDto dto) {
         User user = getCurrentUser();
 
@@ -78,7 +80,8 @@ public class TodoService {
 
 
 
-    @CacheEvict(value = "todos", key = "'getAllTodos:' + authentication.name")
+    @CacheEvict(value = "todos",
+            key = "'getAllTodos:' + T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name")
     public TodoDto updateTodo(Long id,TodoDto dto) {
         User user = getCurrentUser();
 
@@ -94,7 +97,8 @@ public class TodoService {
     }
 
 
-    @CacheEvict(value = "todos", key = "'getAllTodos:' + authentication.name")
+    @CacheEvict(value = "todos",
+            key = "'getAllTodos:' + T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name")
     public void deleteTodo(Long id) {
         User user = getCurrentUser();
 
