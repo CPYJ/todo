@@ -2,6 +2,7 @@ package com.example.todo.dto;
 
 
 import com.example.todo.entity.Todo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -17,6 +18,7 @@ public class TodoDto implements Serializable { // redis에 저장하기 위해
 
     //요청에서는 사용자가 보내도 엔티티에서 무시되고, 응답으로는 알려줘야 함
     // nullable
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // swagger body 에서 빠지게 함
     private Long id;
     
     @NotBlank(message = "제목은 비워둘 수 없습니다.")

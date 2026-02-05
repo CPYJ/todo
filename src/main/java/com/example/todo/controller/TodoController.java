@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/todos")
 @RequiredArgsConstructor
 @Validated // 검증 기능 사용하기
-@SecurityRequirement(name = "bearerAuth") // swagger 에서 jwt가 필요함을 표시
+@SecurityRequirement(name = "bearerAuth") // swagger 에서 jwt가 필요함을 표시 (자물쇠 ui 넣기)
 public class TodoController {
 
     private final TodoService todoService;
