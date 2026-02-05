@@ -5,6 +5,9 @@ import com.example.todo.entity.User;
 import com.example.todo.repository.UserRepository;
 import com.example.todo.security.JwtTokenProvider;
 import com.example.todo.service.TokenBlacklistService;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +28,10 @@ public class AuthController {
     private final TokenBlacklistService tokenBlacklistService;
 
 
+    // swagger에서 jwt 인증 제외하기 위한 애노테이션 -> operation
     // 회원가입. 응답 타입이 여러가지 일 수도 있어서 <?>
     @PostMapping("/signup")
+    @Operation(security = @SecurityRequirement(name = ""))
     public ResponseEntity<?> signup(@Valid @RequestBody UserDto userDto) {
         String username = userDto.getUsername();
         // 비밀번호 암호화
@@ -50,6 +55,7 @@ public class AuthController {
 
     // 로그인 처리
     @PostMapping("/login")
+    @Operation(security = @SecurityRequirement(name = ""))
     public ResponseEntity<?> login(@Valid @RequestBody UserDto userDto) {
         String username = userDto.getUsername();
         String password = userDto.getPassword();
@@ -82,6 +88,7 @@ public class AuthController {
         return ResponseEntity.ok("로그아웃 완료");
     }
 
+    @Hidden // swagger api에서 제외
     @GetMapping("/test")
     @PreAuthorize("hasRole('USER')")
     public String test() {

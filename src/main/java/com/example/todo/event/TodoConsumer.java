@@ -28,7 +28,7 @@ public class TodoConsumer {
             TodoDto dto = objectMapper.readValue(message, TodoDto.class);
             log.info("📥 Kafka 메시지 수신: {}", dto);
             // 추후에 해야할 일들 생기면 여기에 추가하기만 하면 끝
-            // ex) 알림, 메일 보내기 등등
+            // ex) 알림, 메일 보내기, 감사로그 저장 등등
 
         } catch (Exception e) {
 

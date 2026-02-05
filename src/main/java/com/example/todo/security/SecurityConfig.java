@@ -33,6 +33,7 @@ public class SecurityConfig {
                         // 인증이 필요없는 경로
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/actuator/prometheus").permitAll()
+                        .requestMatchers("/swagger-ui/**",  "/v3/api-docs/**").permitAll()
                         // 그 외에는 전부 인증된 사용자만 접근 가능
                         .anyRequest().authenticated()
                 )
