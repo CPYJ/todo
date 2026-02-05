@@ -17,6 +17,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtFilter;
+    // swagger 동작을 위해 permit all 로 열어놔야 하는 경로들
+    private static final String[] SWAGGER_ACCESSPOINT = {
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/webjars/**"
+    };
 
     // 보안 규칙 설정 메서드
     @Bean
@@ -33,8 +41,7 @@ public class SecurityConfig {
                         // 인증이 필요없는 경로
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/actuator/prometheus").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers(SWAGGER_ACCESSPOINT).permitAll()
                         // 그 외에는 전부 인증된 사용자만 접근 가능
                         .anyRequest().authenticated()
                 )
