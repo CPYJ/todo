@@ -39,14 +39,6 @@ public class SwaggerConfig {
         openAPI.components(components);
 
 
-        // components에 등록된 인증 중, 어떤 걸 API에 적용할지 지정
-        SecurityRequirement securityRequirement = new SecurityRequirement()
-                .addList("bearerAuth");
-
-
-        // 전체 api에 인증 적용
-        openAPI.addSecurityItem(securityRequirement);
-
         return openAPI;
     }
 
