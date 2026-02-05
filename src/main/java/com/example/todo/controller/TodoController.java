@@ -2,6 +2,7 @@ package com.example.todo.controller;
 
 import com.example.todo.dto.TodoDto;
 import com.example.todo.service.TodoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid; // Bean Validation 작동 시킴
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/todos")
 @RequiredArgsConstructor
 @Validated // 검증 기능 사용하기
+@SecurityRequirement(name = "bearerAuth") // swagger 에서 jwt가 필요함을 표시
 public class TodoController {
 
     private final TodoService todoService;

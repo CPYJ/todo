@@ -28,10 +28,9 @@ public class AuthController {
     private final TokenBlacklistService tokenBlacklistService;
 
 
-    // swagger에서 jwt 인증 제외하기 위한 애노테이션 -> operation
+
     // 회원가입. 응답 타입이 여러가지 일 수도 있어서 <?>
     @PostMapping("/signup")
-    @Operation(security = @SecurityRequirement(name = ""))
     public ResponseEntity<?> signup(@Valid @RequestBody UserDto userDto) {
         String username = userDto.getUsername();
         // 비밀번호 암호화
@@ -55,7 +54,6 @@ public class AuthController {
 
     // 로그인 처리
     @PostMapping("/login")
-    @Operation(security = @SecurityRequirement(name = ""))
     public ResponseEntity<?> login(@Valid @RequestBody UserDto userDto) {
         String username = userDto.getUsername();
         String password = userDto.getPassword();
@@ -77,7 +75,9 @@ public class AuthController {
 
 
     // 로그아웃 시 jwt를 redis에 블랙리스트로 넣기
+    // swagger ui 상에서 jwt 토큰이 필요함을 표시하는 애노테이션
     @PostMapping("/logout")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String header) {
         // jwt 가져오기
         String token = header.replace("Bearer ", "");
