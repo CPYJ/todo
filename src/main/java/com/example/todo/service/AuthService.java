@@ -7,15 +7,18 @@ import com.example.todo.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder passwordEncoder;
     private final TokenBlacklistService tokenBlacklistService;
+
 
     public void signUp(UserDto userDto){
         String username = userDto.getUsername();
@@ -34,6 +37,8 @@ public class AuthService {
                 .build());
     }
 
+
+    @Transactional(readOnly = true)
     public String login(UserDto userDto){
         String username = userDto.getUsername();
         String password = userDto.getPassword();
@@ -53,6 +58,9 @@ public class AuthService {
         return token;
     }
 
+
+
+    @Transactional(readOnly = true)
     public void logout(String header) {
         // jwt 가져오기
         String token = header.replace("Bearer ", "");

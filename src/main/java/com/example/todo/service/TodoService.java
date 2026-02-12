@@ -28,8 +28,10 @@ public class TodoService {
     private final TodoProducer todoProducer;
     private final UserRepository userRepository;
 
+
     // 메서드 결과 캐시에 저장. 같은 요청 오면 캐시에서 반환. 캐시에 없는 경우 db
     // key 이름 =  메서드이름:user이름 하여 유저별 캐시 관리
+    @Transactional(readOnly = true)
     @Cacheable(value = "todos",
             key = "#root.methodName + ':' + T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name")
     public List<TodoDto> getAllTodos() {
@@ -44,6 +46,7 @@ public class TodoService {
     }
 
 
+    @Transactional(readOnly = true)
     public TodoDto getTodoById(Long id) {
         User user = getCurrentUser();
 
@@ -53,6 +56,7 @@ public class TodoService {
 
         return TodoDto.changeEntityToDto(todo);
     }
+
 
 
     // 데이터가 변경됐으니 해당 유저의 캐시 데이터 삭제
@@ -97,6 +101,7 @@ public class TodoService {
     }
 
 
+
     @CacheEvict(value = "todos",
             key = "'getAllTodos:' + T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name")
     public void deleteTodo(Long id) {
@@ -105,7 +110,7 @@ public class TodoService {
         Todo todo = todoRepository.findByIdAndUser(id, user)
                         .orElseThrow(() -> new RuntimeException("Todo is not found"));
 
-        todoRepository.deleteById(id);
+        todoRepository.delete(todo);
     }
 
 

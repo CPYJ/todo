@@ -27,8 +27,8 @@ public class SwaggerConfig {
 
         // API 문서 기본 정보 설정
         Info info = new Info()
-                .title("TodoList API Server")
-                .description("회원가입 / 로그인 / Todo API")
+                .title("TodoList REST API Server")
+                .description("회원가입/ 로그인/ Todo CRUD가 가능한 REST API 서버입니다.")
                 .version("1.0.0");
         openAPI.info(info);
 

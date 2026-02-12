@@ -4,10 +4,7 @@ package com.example.todo.aop;
 import java.util.Arrays;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +13,15 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect // aop 클래스
 @Component
 public class LoggingAspect {
+
+    // aop를 어디에 적용할지 매번 적지 않기 위해
+    // 따로 정의해놓는 것. 별칭용
+    // 모든 메서드 실행 전에 적용
+    @Pointcut("execution(* com.example.todo.controller..*(..))")
+    private void controllerPointcut(){}
     
 
-    // 모든 컨트롤러의 모든 메서드 실행 전에 적용
-    @Before("execution(* com.example.todo.controller..*(..))")
+    @Before("controllerPointcut()")
     public void logBeforeMethod(JoinPoint joinpoint) {
         // 실행될 클래스 + 메서드 이름
         String methodName = joinpoint.getSignature().toShortString();
@@ -31,8 +33,8 @@ public class LoggingAspect {
     }
 
     // 성공 로그
-    // returning에 있는 string과 파라미터의 변수 이름이 같아야 함
-    @AfterReturning(pointcut="execution(* com.example.todo.controller..*(..))",
+    // returning에 있는 string과 파라미터의 변수 이름이 같아야 함 => 주입
+    @AfterReturning(pointcut="controllerPointcut()",
             returning = "result")
     public void logAfterMethod(JoinPoint joinpoint, Object result) {
         String methodName = joinpoint.getSignature().toShortString();
@@ -43,7 +45,7 @@ public class LoggingAspect {
 
 
     // 예외 로그
-    @AfterThrowing(pointcut="execution(* com.example.todo.controller..*(..))",
+    @AfterThrowing(pointcut="controllerPointcut()",
             throwing = "ex")
     public void logAfterException(JoinPoint joinpoint, Throwable ex) {
         String methodName = joinpoint.getSignature().toShortString();
