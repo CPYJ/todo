@@ -4,6 +4,8 @@ import com.example.todo.dto.TodoDto;
 import com.example.todo.entity.Todo;
 import com.example.todo.entity.User;
 import com.example.todo.event.TodoProducer;
+import com.example.todo.exception.TodoNotFoundException;
+import com.example.todo.exception.UserNotFoundException;
 import com.example.todo.repository.TodoRepository;
 import com.example.todo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +54,7 @@ public class TodoService {
 
         // optional로 반환. 값이 있으면 꺼내주고, 빈 값이면 exception 던지기
         Todo todo = todoRepository.findByIdAndUser(id, user)
-                .orElseThrow(() -> new RuntimeException("Todo is not found"));
+                .orElseThrow(() -> new TodoNotFoundException());
 
         return TodoDto.changeEntityToDto(todo);
     }
@@ -90,9 +92,9 @@ public class TodoService {
         User user = getCurrentUser();
 
         Todo todo = todoRepository.findByIdAndUser(id, user)
-                .orElseThrow(() -> new RuntimeException("Todo is not found"));
+                .orElseThrow(() -> new TodoNotFoundException());
 
-        // 새로 받은 dto로 기존 엔티티 수정
+        // 새로 받은 dto로 기존 엔티티 수정. dirty-checking
         todo.setTitle(dto.getTitle());
         todo.setDescription(dto.getDescription());
         todo.setCompleted(dto.isCompleted());
@@ -108,7 +110,7 @@ public class TodoService {
         User user = getCurrentUser();
 
         Todo todo = todoRepository.findByIdAndUser(id, user)
-                        .orElseThrow(() -> new RuntimeException("Todo is not found"));
+                        .orElseThrow(() -> new TodoNotFoundException());
 
         todoRepository.delete(todo);
     }
@@ -123,7 +125,7 @@ public class TodoService {
                 .getName(); // 사용자의 이름 꺼내기
 
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User is not found"));
+                .orElseThrow(() -> new UserNotFoundException());
 
         return user;
     }
