@@ -1,5 +1,7 @@
 package com.example.todo.exception;
 
+import com.example.todo.response.ApiResponse;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,9 +16,21 @@ import java.util.Map;
 @RestControllerAdvice 
 public class CustomExceptionHandler {
 
+
+    // custom exception 예외 처리
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ApiResponse<?>> handleBaseException(BaseException ex){
+        // api response로 감싸서 응답
+        return ResponseEntity.status(ex.getStatus())
+                .body(ApiResponse.error(ex.getStatus(), ex.getMessage()));
+    }
+
+
+
+
     // validation 실패 시 발생하는 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> handleValidationException(
+    public ResponseEntity<ApiResponse<?>> handleValidationException(
             MethodArgumentNotValidException ex) {
 
         Map<String,String> errors = new HashMap<>();
@@ -30,19 +44,12 @@ public class CustomExceptionHandler {
         });
 
         // 400 상태코드와 errors 응답
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST,
+                        "Validation failed", errors));
     }
 
 
     
-    // 일반적인 런타임 예외 처리
-    @ExceptionHandler (RuntimeException.class)
-    public ResponseEntity<Map<String,String>> handleRuntimeException(
-            RuntimeException ex) {
-        Map<String,String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
 
-        // 상태코드 400
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
 }
