@@ -12,13 +12,14 @@ import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class TodoDto implements Serializable { // redis에 저장하기 위해
 
     //요청에서는 사용자가 보내도 엔티티에서 무시되고, 응답으로는 알려줘야 함
     // nullable
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // swagger body 에서 빠지게 함
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // swagger 요청 body 에서 빠지게 함
     private Long id;
     
     @NotBlank(message = "제목은 비워둘 수 없습니다.")
@@ -33,6 +34,7 @@ public class TodoDto implements Serializable { // redis에 저장하기 위해
 
     // 클라이언트가 보내는 것 X. 서버에서 채우는 응답용 필드
     // 따라서 validation 안해도 됨
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // swagger 요청 body X
     private Long userId;
 
 

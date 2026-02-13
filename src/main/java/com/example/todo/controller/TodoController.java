@@ -60,7 +60,7 @@ public class TodoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteTodo(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
         todoService.deleteTodo(id);
         // 상태 코드 204 = 요청 성공 + 응답 바디 없음
         return ResponseEntity.noContent().build();
