@@ -41,6 +41,7 @@ public class TodoController {
 
 
     @PostMapping
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공")
     public ResponseEntity<ApiResponse<TodoDto>> createTodo(@Valid @RequestBody TodoDto dto) {
 
         TodoDto created = todoService.createTodo(dto);
@@ -60,6 +61,7 @@ public class TodoController {
 
 
     @DeleteMapping("/{id}")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
         todoService.deleteTodo(id);
         // 상태 코드 204 = 요청 성공 + 응답 바디 없음

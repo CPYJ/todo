@@ -31,6 +31,7 @@ public class AuthController {
 
     // 회원가입
     @PostMapping("/signup")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "회원가입 성공")
     public ResponseEntity<ApiResponse<Void>> signup(@Valid @RequestBody UserDto userDto) {
 
         authService.signUp(userDto);
