@@ -1,20 +1,22 @@
 # 📝 Todo List 
  
-> 확장성을 고려해 Redis, Kafka, CI/CD까지 직접 적용한 실무형 REST API 서버
+> 실제 서비스 운영을 가정하고 인증, 캐시, 비동기 처리, 모니터링까지 적용한 Todo REST API 서버
 
 운영 환경을 가정하여 아래 요소를 직접 설계·구현했습니다.
 
 - 서버 수평 확장을 고려한 JWT 기반 인증
 - Redis 캐시를 통한 조회 성능 개선 및 DB 부하 경감
-- Kafka 기반의 비동기 이벤트 처리
+- Kafka 기반의 비동기 이벤트 처리 구조 설
 - AWS + Docker 기반 실제 배포 환경 구축
 - GitHub Actions CI/CD 자동화 파이프라인
-- Swagger 기반의 문서화 및 테스트 환경 구축
+- Swagger 기반의 API 테스트 환경 구축
 - 전역 예외처리 및 공통 로깅
 
 ---
 
 ## 📮 Swagger URL
+
+> 서버 실행 없이 바로 API 테스트가 가능합니다.
 
 http://ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/swagger-ui/index.html
 
