@@ -53,14 +53,14 @@ jwt:
 
 # 모니터링
 management:
-  endpoints: #actuator 관련 설정
+  endpoints: #actuator 관련 설정 (springboot 내부상태를 메트릭으로 외부에 공개함)
     web: # 웹으로 보는 설정
       exposure: # 어떤 정보 보여줄지 정하기
-        include: prometheus # /actuator/prometheus만 접근 가능
+        include: prometheus # /actuator/prometheus에 웹으로 접근을 허용
   metrics: # 성능 지표 설정
     export: # 지표를 밖으로 보내는 설정
       prometheus: # prometheus로 보낼 때 설정
-        enabled: true # prometheus로 보내기 true로 작동시키기
+        enabled: true # /actuator/prometheus url 기능 on
 
 # 로그 설정
 logging:
