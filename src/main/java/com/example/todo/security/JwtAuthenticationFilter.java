@@ -33,16 +33,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         // 요청 헤더 꺼내기
         String authHeader = request.getHeader("Authorization");
+
+
         // bearer 토큰 형식인지 판단
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
            String token = authHeader.substring(7);
 
+
            // jwt가 블랙리스트에 있는 경우 (로그아웃 해서 유효하지 않은 토큰)
            if(tokenBlacklistService.isBlacklisted(token)) {
-               // 인증 실패 반환
+               // 인증 실패. 유저에게 바로 응답 반환
                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                return;
            }
+
+
            // 토큰이 유효한지 검사
            if(jwtTokenProvider.validateToken(token)) {
 
