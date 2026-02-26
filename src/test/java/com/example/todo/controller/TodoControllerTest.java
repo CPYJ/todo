@@ -24,14 +24,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(OutputCaptureExtension.class) // 로그 캡쳐 기능
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc // MockMvc를 자동으로 만들어주는 설정
 public class TodoControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc; // 가짜 브라우저
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper; // Json <-> 객체 변환기
 
     // 로그인 후 받은 jwt 저장용
     private String token;
@@ -52,6 +52,7 @@ public class TodoControllerTest {
         mockMvc.perform(post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)));
+        // 굳이 duplicate 예외 터지나 검증 안함.
 
         // 로그인 -> jwt 토큰 발급
         MvcResult result = mockMvc.perform(post("/api/auth/login")
@@ -60,7 +61,9 @@ public class TodoControllerTest {
                                     .andExpect(status().isOk())
                                     .andReturn(); // MvcResult 반환
         // 발급받은 jwt 저장
-        token = result.getResponse().getContentAsString();
+        String body = result.getResponse().getContentAsString();
+        //                   json 탐색기
+        token = objectMapper.readTree(body).get("data").get("accessToken").asText();
     }
 
 
@@ -116,7 +119,7 @@ public class TodoControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("청소"));
+                .andExpect(jsonPath("$.data.title").value("청소"));
     }
 
 
@@ -134,7 +137,7 @@ public class TodoControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.title").value("제목은 비워둘 수 없습니다."));
+                .andExpect(jsonPath("$.data.title").value("제목은 비워둘 수 없습니다."));
     }
 
 
@@ -154,8 +157,8 @@ public class TodoControllerTest {
 
         mockMvc.perform(get("/api/todos/"+ id)
                     .header("Authorization", "Bearer " + token))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Can't find a todo id " + id));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Todo를 찾을 수 없습니다."));
     }
 
 
@@ -179,7 +182,7 @@ public class TodoControllerTest {
 
         // id 가져오기
         String response = result.getResponse().getContentAsString();
-        Long id = objectMapper.readTree(response).get("id").asLong();
+        Long id = objectMapper.readTree(response).get("data").get("id").asLong();
 
 
         // 수정 요청
@@ -194,8 +197,8 @@ public class TodoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("updated title"))
-                .andExpect(jsonPath("$.completed").value(true));
+                .andExpect(jsonPath("$.data.title").value("updated title"))
+                .andExpect(jsonPath("$.data.completed").value(true));
 
     }
 
@@ -216,7 +219,7 @@ public class TodoControllerTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Long id = objectMapper.readTree(result.getResponse().getContentAsString()).get("id").asLong();
+        Long id = objectMapper.readTree(result.getResponse().getContentAsString()).get("data").get("id").asLong();
 
         mockMvc.perform(delete("/api/todos/" + id)
                     .header("Authorization", "Bearer " + token))
@@ -229,8 +232,8 @@ public class TodoControllerTest {
     void deleteTodo_fail_notFound() throws Exception {
         mockMvc.perform(delete("/api/todos/9999")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value(Matchers.containsString("9999")));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Todo를 찾을 수 없습니다."));
     }
 
 
