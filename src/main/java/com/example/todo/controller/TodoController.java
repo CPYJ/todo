@@ -26,7 +26,6 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<TodoDto>>> getAllTodos() {
-
         return ResponseEntity.ok(ApiResponse.ok(todoService.getAllTodos()));
     }
 
@@ -40,7 +39,8 @@ public class TodoController {
 
 
 
-    @PostMapping // swagger 메서드 response code 표시용
+    @PostMapping
+    // swagger 메서드 response code 표시용
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공") 
     public ResponseEntity<ApiResponse<TodoDto>> createTodo(@Valid @RequestBody TodoDto dto) {
 
