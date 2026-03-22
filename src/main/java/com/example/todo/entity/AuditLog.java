@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 public class AuditLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // sequence가 identity보다 postgres에선 유리함 <- db 왕복 적게 함
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String eventType; // 어떤 이벤트?
