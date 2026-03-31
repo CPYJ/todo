@@ -1,20 +1,27 @@
 package com.example.todo.event;
 
 import com.example.todo.dto.TodoDto;
+import com.example.todo.entity.AuditLog;
+import com.example.todo.repository.AuditLogRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 // kafka에 등록된 event를 받아서, 이후 해야할 일들을 비동기로 처리하는 역할
 // => 메인 로직 빨리 끝남
 public class TodoConsumer {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final AuditLogRepository auditLogRepository;
 
 
     // kafka에 메시지가 들어오면 자동으로 실행 됨 <= kafkaListener
@@ -29,6 +36,16 @@ public class TodoConsumer {
             log.info("📥 Kafka 메시지 수신: {}", dto);
             // 추후에 해야할 일들 생기면 여기에 추가하기만 하면 끝
             // ex) 알림, 메일 보내기, 감사로그 저장 등등
+
+            // 감사 로그 저장
+            AuditLog logEntity = AuditLog.builder()
+                    .eventType("TODO_CREATED")
+                    .userId(dto.getUserId())
+                    .data(message) // 투두 dto의 json 데이터 그대로 저장
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            auditLogRepository.save(logEntity);
 
         } catch (Exception e) {
 
