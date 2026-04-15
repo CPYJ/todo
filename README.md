@@ -6,7 +6,7 @@
 
 - 서버 수평 확장을 고려한 JWT 기반 인증
 - Redis 캐시를 통한 조회 성능 개선 및 DB 부하 경감
-- Kafka 기반의 비동기 이벤트 처리 구조 설
+- Kafka 기반의 비동기 이벤트 처리 구조 설계
 - AWS + Docker 기반 실제 배포 환경 구축
 - GitHub Actions CI/CD 자동화 파이프라인
 - Swagger 기반의 API 테스트 환경 구축
@@ -16,9 +16,13 @@
 
 ## 📮 Swagger URL
 
-> 서버 실행 없이 바로 API 테스트가 가능합니다.
+> 서버 실행 없이 바로 API 테스트가 가능합니다. ( 현재 AWS 크레딧 소진으로 ec2 서버가 중지되어 링크 접속이 제한됩니다. )
 
 http://ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/swagger-ui/index.html
+
+### 📷 화면 예시
+<img width="750" height="550" alt="swagger" src="https://github.com/user-attachments/assets/c9de3583-a84b-498e-b1f6-19c7ee92ebc9" />
+
 
 ---
 
