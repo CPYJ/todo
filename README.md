@@ -16,7 +16,7 @@
 
 ## 📮 Swagger URL
 
-> 서버 실행 없이 바로 API 테스트가 가능합니다. ( 현재 AWS 크레딧 소진으로 ec2 서버가 중지되어 링크 접속이 제한됩니다. )
+> 서버 실행 없이 바로 API 테스트가 가능합니다. ( 현재 AWS 크레딧 소진으로 ec2 서버가 중지되어 링크 접속이 제한됩니다.)
 
 http://ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/swagger-ui/index.html
 
