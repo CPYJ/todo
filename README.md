@@ -21,7 +21,7 @@
 http://ec2-54-180-166-227.ap-northeast-2.compute.amazonaws.com/swagger-ui/index.html
 
 ### 📷 화면 예시
-<img width="750" height="550" alt="swagger" src="https://github.com/user-attachments/assets/c9de3583-a84b-498e-b1f6-19c7ee92ebc9" />
+<img width="750" height="550" alt="swagger2" src="https://github.com/user-attachments/assets/c9abe13c-745f-408a-b4c5-a0e5035a4d4d" />
 
 
 ---
